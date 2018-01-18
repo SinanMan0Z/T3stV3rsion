@@ -1,8 +1,6 @@
 package com.soccer;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("Bundesliga Tabelle");
-		System.out.println("Mannschaft | Punkte");
+		System.out.println("Position | Mannschaft | Punkte");
 
 		List<Team> teams = new ArrayList<>();
 		teams.add(new Team("ESV Nordenham", 24));
@@ -25,45 +23,45 @@ public class Main {
 		teams.add(new Team("ESV Wilhelsmhaven 2", 1));
 		teams.add(new Team("JSG Wangerland", 7));
 
-		Scanner reader = new Scanner(System.in); // Reading from System.in
-		
-		while (true)
-		
-			
-		{ 
-			char choice = reader.nextLine().charAt(0);
-		
-			if(choice == 'q')
-				break;
-			
-		if (choice == 'p') {
-			Collections.sort(teams);
+		try (Scanner reader = new Scanner(System.in)) { // Reading from System.in
 
-			for (Team team : teams) {
-				String name = team.getName();
-				int points = team.getPoints();
-				System.out.println(name + " | " + points);
+			while (true) {
+				char choice = reader.nextLine().charAt(0);
+  
+				if (choice == 'q')
+					break;
+
+				if (choice == 'p') {
+					Collections.sort(teams);
+
+					int i = 1;
+					for (Team team : teams) {
+						String name = team.getName();
+						int points = team.getPoints();
+						int position = i = i++;
+						System.out.println(position + "|" + name + "|" + points);
+						i = i + 1; // i++;
+					}
+				} else if (choice == 'a') {
+					System.err.println("Bitte Name eingeben:");
+					String name = reader.nextLine();
+					System.err.println("Bitte Punkte eingeben:");
+					String points = reader.nextLine();
+					int punkte = Integer.parseInt(points);
+					teams.add(new Team(name, punkte));
+				}
+
+				if (choice == 'e') {
+					System.err.println("Bitte Position eingeben:");
+					String position = reader.nextLine();
+					System.err.println("Bitte hinzuzufügene Punkte eingeben:");
+					String points = reader.nextLine();
+					int punkte = Integer.parseInt(points);
+					int place = Integer.parseInt(position);
+					Team team = teams.get(place - 1);
+					team.setPoints(team.getPoints() + punkte);
+				}
 			}
-			
 		}
-		else	if (choice == 'a') {
-			System.err.println("Bitte Name eingeben:");
-			String name = reader.nextLine();
-			System.err.println("Bitte Punkte eingeben:");
-			String points = reader.nextLine();
-			String myString = points;
-			int punkte = Integer.parseInt(points);
-			teams.add(new Team(name, punkte));
-		}
-		
-		}
-
-		
 	}
-
-	private static void add(Team team) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
